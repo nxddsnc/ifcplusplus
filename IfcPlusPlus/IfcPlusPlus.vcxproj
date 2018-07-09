@@ -51,6 +51,7 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
@@ -76,9 +77,10 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseWithDebugInfo|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
@@ -129,13 +131,13 @@
     <TargetExt>.dll</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>bin\</OutDir>
+    <OutDir>..\..\platform\win\ifcPlusPlus\x64</OutDir>
     <IntDir>bin\$(Configuration)\</IntDir>
     <TargetName>$(ProjectName)d</TargetName>
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>bin\</OutDir>
+    <OutDir>..\..\platform\win\ifcPlusPlus\x64</OutDir>
     <IntDir>bin\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseWithDebugInfo|x64'">
@@ -172,7 +174,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>src;$(BOOST_DIR)%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;$(BOOST_ROOT)%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WINDOWS;WINDOWS;UNICODE;WIN32;WIN64;_DEBUG;_CRT_SECURE_NO_WARNINGS;_MBCS;IFCQUERY_AS_DYNAMIC_LIBRARY;IFCQUERY_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
@@ -184,6 +186,7 @@
       <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <ObjectFileName>$(IntDir)/%(RelativeDir)/</ObjectFileName>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -250,7 +253,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>false</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>src;$(BOOST_DIR)%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;$(BOOST_ROOT)%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PreprocessorDefinitions>CARVE_SYSTEM_BOOST;UNICODE;WIN32;_WINDOWS;NDEBUG;_MBCS;ENABLE_OPENMP;IFCQUERY_AS_DYNAMIC_LIBRARY;IFCQUERY_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
@@ -265,6 +268,7 @@
       <ObjectFileName>$(IntDir)/%(RelativeDir)/</ObjectFileName>
       <InlineFunctionExpansion>Default</InlineFunctionExpansion>
       <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>
@@ -1526,24 +1530,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ifcpp\geometry\AppearanceData.h" />
-    <ClInclude Include="src\ifcpp\geometry\Carve\ConverterOSG.h" />
-    <ClInclude Include="src\ifcpp\geometry\Carve\CSG_Adapter.h" />
-    <ClInclude Include="src\ifcpp\geometry\Carve\CurveConverter.h" />
-    <ClInclude Include="src\ifcpp\geometry\Carve\FaceConverter.h" />
-    <ClInclude Include="src\ifcpp\geometry\Carve\GeomDebugDump.h" />
-    <ClInclude Include="src\ifcpp\geometry\Carve\GeometryConverter.h" />
-    <ClInclude Include="src\ifcpp\geometry\Carve\GeometryInputData.h" />
-    <ClInclude Include="src\ifcpp\geometry\Carve\GeomUtils.h" />
-    <ClInclude Include="src\ifcpp\geometry\Carve\IncludeCarveHeaders.h" />
-    <ClInclude Include="src\ifcpp\geometry\Carve\PlacementConverter.h" />
-    <ClInclude Include="src\ifcpp\geometry\Carve\PointConverter.h" />
-    <ClInclude Include="src\ifcpp\geometry\Carve\ProfileCache.h" />
-    <ClInclude Include="src\ifcpp\geometry\Carve\ProfileConverter.h" />
-    <ClInclude Include="src\ifcpp\geometry\Carve\RepresentationConverter.h" />
-    <ClInclude Include="src\ifcpp\geometry\Carve\SolidModelConverter.h" />
-    <ClInclude Include="src\ifcpp\geometry\Carve\SplineConverter.h" />
-    <ClInclude Include="src\ifcpp\geometry\Carve\Sweeper.h" />
-    <ClInclude Include="src\ifcpp\geometry\Carve\TessellatedItemConverter.h" />
     <ClInclude Include="src\ifcpp\geometry\GeometryException.h" />
     <ClInclude Include="src\ifcpp\geometry\GeometrySettings.h" />
     <ClInclude Include="src\ifcpp\geometry\OCC\CSG_AdapterOCC.h" />

@@ -73,14 +73,14 @@ public:
 
 	void resetModel()
 	{
-		progressTextCallback( L"Unloading model, cleaning up memory..." );
+		//progressTextCallback( L"Unloading model, cleaning up memory..." );
 		clearInputCache();
 		m_recent_progress = 0.0;
 
 		m_ifc_model->clearCache();
 		m_ifc_model->clearIfcModel();
-		progressTextCallback( L"Unloading model done" );
-		progressValueCallback( 0.0, "parse" );
+		//progressTextCallback( L"Unloading model done" );
+		//progressValueCallback( 0.0, "parse" );
 
 #ifdef GEOMETRY_DEBUG_CHECK
 		GeomDebugDump::clearMeshsetDump();
@@ -110,7 +110,7 @@ public:
 		m_ifc_model = model;
 		m_representation_converter->clearCache();
 		m_representation_converter->setUnitConverter( m_ifc_model->getUnitConverter() );
-		m_ifc_model->setMessageTarget( this );
+		 m_ifc_model->setMessageTarget( this );
 	}
 
 	void resolveProjectStructure( shared_ptr<ProductShapeData>& product_data )
@@ -365,7 +365,7 @@ public:
 
 					if( thread_err.tellp() > 0 )
 					{
-						messageCallback( thread_err.str().c_str(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );
+						// messageCallback( thread_err.str().c_str(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );
 					}
 				}
 
@@ -426,15 +426,15 @@ public:
 		}
 		catch( BuildingException& e )
 		{
-			messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_ERROR, "" );
+			// messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_ERROR, "" );
 		}
 		catch( std::exception& e )
 		{
-			messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_ERROR, "" );
+			// messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_ERROR, "" );
 		}
 		catch( ... )
 		{
-			messageCallback( "undefined error", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );
+			// messageCallback( "undefined error", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );
 		}
 
 		m_representation_converter->getProfileCache()->clearProfileCache();
@@ -495,11 +495,11 @@ public:
 			}
 			catch( BuildingException& e )
 			{
-				messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_ERROR, "" );
+				// messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_ERROR, "" );
 			}
 			catch( std::exception& e )
 			{
-				messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_ERROR, "" );
+				// messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_ERROR, "" );
 			}
 		}
 

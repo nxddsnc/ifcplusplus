@@ -1391,7 +1391,7 @@
 { "IFCSOLARDEVICE", []( void )->BuildingEntity* { return new IfcSolarDevice(); } },
 { "IFCSOLARDEVICETYPE", []( void )->BuildingEntity* { return new IfcSolarDeviceType(); } },
 { "IFCSOLIDMODEL", []( void )->BuildingEntity* { return new IfcSolidModel(); } },
-{ "IFCSPACE", []( void )->BuildingEntity* { return new IfcSpace(); } },
+//{ "IFCSPACE", []( void )->BuildingEntity* { return new IfcSpace(); } },
 { "IFCSPACEHEATER", []( void )->BuildingEntity* { return new IfcSpaceHeater(); } },
 { "IFCSPACEHEATERTYPE", []( void )->BuildingEntity* { return new IfcSpaceHeaterType(); } },
 { "IFCSPACETYPE", []( void )->BuildingEntity* { return new IfcSpaceType(); } },
