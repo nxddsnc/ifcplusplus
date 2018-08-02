@@ -28,6 +28,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <ifcpp/IFC4/include/IfcRelDefinesByProperties.h>
 #include <ifcpp/IFC4/include/IfcSpace.h>
 #include <ifcpp/IFC4/include/IfcWindow.h>
+#include <ifcpp/IFC4/include/IfcBuildingStorey.h>
+#include <ifcpp/IFC4/include/IfcSite.h>
+#include <ifcpp/IFC4/include/IfcBuilding.h>
 
 #include "IncludeCarveHeaders.h"
 #include "GeometryInputData.h"
@@ -45,6 +48,8 @@ protected:
 	std::map<int, shared_ptr<BuildingObject> >			m_map_outside_spatial_structure;
 	double m_recent_progress;
 	std::map<int, std::vector<shared_ptr<StatusCallback::Message> > > m_messages;
+
+    std::unordered_map<int, std::vector<shared_ptr<IfcPropertySet> > > m_entity_propertysets;
 #ifdef ENABLE_OPENMP
 	Mutex m_writelock_messages;
 #endif
@@ -56,6 +61,7 @@ public:
 	shared_ptr<GeometrySettings>&					getGeomSettings() { return m_geom_settings; }
 	std::map<int, shared_ptr<ProductShapeData> >&	getShapeInputData() { return m_product_shape_data; }
 	std::map<int, shared_ptr<BuildingObject> >&		getObjectsOutsideSpatialStructure() { return m_map_outside_spatial_structure; }
+    std::unordered_map<int, std::vector<shared_ptr<IfcPropertySet> > > getEntityPropertySets() { return m_entity_propertysets; }
 
 	GeometryConverter( shared_ptr<BuildingModel>& ifc_model )
 	{
@@ -537,6 +543,11 @@ public:
 						shared_ptr<IfcPropertySet> property_set = dynamic_pointer_cast<IfcPropertySet>(property_set_def);
 						if( property_set )
 						{
+                            if (m_entity_propertysets.count(product_shape->m_entity_id) == 0)
+                            {
+                                m_entity_propertysets.insert(std::make_pair(product_shape->m_entity_id, std::vector<shared_ptr<IfcPropertySet> >()));
+                            }
+                            m_entity_propertysets[product_shape->m_entity_id].push_back(property_set);
 							readAppearanceFromPropertySet( property_set, product_shape );
 						}
 						continue;
@@ -555,6 +566,11 @@ public:
 								shared_ptr<IfcPropertySet> property_set = dynamic_pointer_cast<IfcPropertySet>(property_set_def2);
 								if( property_set )
 								{
+                                    if (m_entity_propertysets.count(product_shape->m_entity_id) == 0)
+                                    {
+                                        m_entity_propertysets.insert(std::make_pair(product_shape->m_entity_id, std::vector<shared_ptr<IfcPropertySet> >()));
+                                    }
+                                    m_entity_propertysets[product_shape->m_entity_id].push_back(property_set);
 									readAppearanceFromPropertySet( property_set, product_shape );
 								}
 							}
