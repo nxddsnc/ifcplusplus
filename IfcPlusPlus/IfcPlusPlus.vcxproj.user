@@ -3,4 +3,9 @@
   <PropertyGroup>
     <ShowAllFiles>true</ShowAllFiles>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LocalDebuggerCommand>D:\MODELO_PROJECTS\MODELO_converter-mx\bin\Release\mx.ifc.exe</LocalDebuggerCommand>
+    <LocalDebuggerCommandArguments>"D:\MODELO_PROJECTS\ifcFiles\20160124OTC-Conference Center.ifc" scene.json -mxversion=3</LocalDebuggerCommandArguments>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+  </PropertyGroup>
 </Project>

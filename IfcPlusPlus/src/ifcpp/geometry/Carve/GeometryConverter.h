@@ -18,6 +18,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #pragma once
 
 #include <unordered_set>
+#include <unordered_map>
 #include <ifcpp/model/BasicTypes.h>
 #include <ifcpp/model/BuildingModel.h>
 #include <ifcpp/model/StatusCallback.h>
@@ -71,6 +72,7 @@ public:
 		shared_ptr<UnitConverter>& unit_converter = m_ifc_model->getUnitConverter();
 		m_representation_converter = shared_ptr<RepresentationConverter>( new RepresentationConverter( m_geom_settings, unit_converter ) );
 
+        m_entity_propertysets = std::unordered_map<int, std::vector<shared_ptr<IfcPropertySet> > >();
 		// redirect all messages to this->messageTarget
 		m_ifc_model->setMessageTarget( this );
 		m_representation_converter->setMessageTarget( this );
