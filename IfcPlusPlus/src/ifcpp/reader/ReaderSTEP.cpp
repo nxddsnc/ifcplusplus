@@ -41,6 +41,17 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 ReaderSTEP::ReaderSTEP(){}
 ReaderSTEP::~ReaderSTEP(){}
 
+std::string WstringToString(const std::wstring str)
+{// wstringתstring
+    unsigned len = str.size() * 4;
+    setlocale(LC_CTYPE, "");
+    char *p = new char[len];
+    wcstombs(p, str.c_str(), len);
+    std::string str1(p);
+    delete[] p;
+    return str1;
+}
+
 void ReaderSTEP::loadModelFromFile( const std::wstring& filePath, shared_ptr<BuildingModel>& targetModel )
 {
 	// if file content needs to be loaded into a plain model, call resetModel() before loadModelFromFile
@@ -70,7 +81,8 @@ void ReaderSTEP::loadModelFromFile( const std::wstring& filePath, shared_ptr<Bui
 	}
 
 	// open file
-	std::string filePathStr(filePath.begin(), filePath.end());
+    std::string filePathStr = WstringToString(filePath);
+	//std::string filePathStr(filePath.begin(), filePath.end());
 	std::ifstream infile(filePathStr.c_str(), std::ifstream::in);
 
 	if( !infile.is_open() )

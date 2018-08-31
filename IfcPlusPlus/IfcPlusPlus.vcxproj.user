@@ -8,4 +8,9 @@
     <LocalDebuggerCommandArguments>"D:\MODELO_PROJECTS\ifcFiles\20160124OTC-Conference Center.ifc" scene.json -mxversion=3</LocalDebuggerCommandArguments>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LocalDebuggerCommand>D:\MODELO_PROJECTS\MODELO_converter-mx\bin\Debug\mx_x64.ifc.exe</LocalDebuggerCommand>
+    <LocalDebuggerCommandArguments>"D:\MODELO_PROJECTS\ifcFiles\T1号楼.ifc" scene.json -mxversion=2</LocalDebuggerCommandArguments>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+  </PropertyGroup>
 </Project>
