@@ -32,6 +32,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <ifcpp/IFC4/include/IfcBuildingStorey.h>
 #include <ifcpp/IFC4/include/IfcSite.h>
 #include <ifcpp/IFC4/include/IfcBuilding.h>
+#include <ifcpp/IFC4/include/IfcSIUnit.h>
+#include <ifcpp/IFC4/include/IfcUnitEnum.h>
 
 #include "IncludeCarveHeaders.h"
 #include "GeometryInputData.h"
@@ -51,6 +53,10 @@ protected:
 	std::map<int, std::vector<shared_ptr<StatusCallback::Message> > > m_messages;
 
     std::unordered_map<int, std::vector<shared_ptr<IfcPropertySet> > > m_entity_propertysets;
+
+    std::wstring                             m_length_unit;
+    std::wstring                             m_area_unit;
+    std::wstring                             m_volume_unit;
 #ifdef ENABLE_OPENMP
 	Mutex m_writelock_messages;
 #endif
@@ -64,6 +70,10 @@ public:
 	std::map<int, shared_ptr<BuildingObject> >&		getObjectsOutsideSpatialStructure() { return m_map_outside_spatial_structure; }
     std::unordered_map<int, std::vector<shared_ptr<IfcPropertySet> > > getEntityPropertySets() { return m_entity_propertysets; }
 
+    std::wstring                                    getLengthUnit() { return m_length_unit; }
+    std::wstring                                    getAreaUnit() { return m_area_unit; }
+    std::wstring                                    getVolumeUint() { return m_volume_unit; };
+
 	GeometryConverter( shared_ptr<BuildingModel>& ifc_model )
 	{
 		m_ifc_model = ifc_model;
@@ -76,6 +86,10 @@ public:
 		// redirect all messages to this->messageTarget
 		m_ifc_model->setMessageTarget( this );
 		m_representation_converter->setMessageTarget( this );
+
+        m_length_unit = L"";
+        m_area_unit = L"";
+        m_volume_unit = L"";
 	}
 	virtual ~GeometryConverter() {}
 
@@ -270,6 +284,44 @@ public:
 		}
 	}
 
+    std::wstring convertUnit(shared_ptr<IfcSIUnitName> unitName)
+    {
+        switch (unitName->m_enum)
+        {
+        case 0:	    return L"AMPERE";
+        case 1:	    return L"BECQUEREL";
+        case 2:	    return L"CANDELA";
+        case 3:	    return L"COULOMB";
+        case 4:	    return L"CUBIC_METRE";
+        case 5:	    return L"DEGREE_CELSIUS";
+        case 6:	    return L"FARAD";
+        case 7:	    return L"GRAM";
+        case 8:	    return L"GRAY";
+        case 9:	    return L"HENRY";
+        case 10:	return L"HERTZ";
+        case 11:	return L"JOULE";
+        case 12:	return L"KELVIN";
+        case 13:	return L"LUMEN";
+        case 14:	return L"LUX";
+        case 15:	return L"METRE";
+        case 16:	return L"MOLE";
+        case 17:	return L"NEWTON";
+        case 18:	return L"OHM";
+        case 19:	return L"PASCAL";
+        case 20:	return L"RADIAN";
+        case 21:	return L"SECOND";
+        case 22:	return L"SIEMENS";
+        case 23:	return L"SIEVERT";
+        case 24:	return L"SQUARE_METRE";
+        case 25:	return L"STERADIAN";
+        case 26:	return L"TESLA";
+        case 27:	return L"VOLT";
+        case 28:	return L"WATT";
+        case 29:	return L"WEBER";
+        }
+        return L"";
+    }
+
 	/*\brief method convertGeometry: Creates geometry for Carve from previously loaded BuildingModel model.
 	\param[out] parent_group Group to append the resulting geometry.
 	**/
@@ -304,6 +356,26 @@ public:
 			{
 				vec_object_defs.push_back( object_def );
 			}
+            else
+            {
+                shared_ptr<IfcSIUnit> unit = dynamic_pointer_cast<IfcSIUnit>(obj);
+                if (unit)
+                {
+                    shared_ptr<IfcNamedUnit> namedUint = dynamic_pointer_cast<IfcNamedUnit>(obj);
+                    if (namedUint->m_UnitType->m_enum == namedUint->m_UnitType->ENUM_LENGTHUNIT)
+                    {
+                        m_length_unit = convertUnit(unit->m_Name);
+                    }
+                    else if (namedUint->m_UnitType->m_enum == namedUint->m_UnitType->ENUM_AREAUNIT)
+                    {
+                        m_area_unit = convertUnit(unit->m_Name);
+                    }
+                    else if (namedUint->m_UnitType->m_enum == namedUint->m_UnitType->ENUM_VOLUMEUNIT)
+                    {
+                        m_volume_unit = convertUnit(unit->m_Name);
+                    }
+                }
+            }
 		}
 
 		// create geometry for for each IfcProduct independently, spatial structure will be resolved later
