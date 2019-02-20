@@ -273,56 +273,56 @@ public:
 		//	return;
 		//}
 
-		shared_ptr<IfcSweptDiskSolid> swept_disp_solid = dynamic_pointer_cast<IfcSweptDiskSolid>( solid_model );
-		if( swept_disp_solid )
-		{
-			//ENTITY IfcSweptDiskSolid;
-			//	ENTITY IfcRepresentationItem;
-			//	INVERSE
-			//		LayerAssignments	 : 	SET OF IfcPresentationLayerAssignment FOR AssignedItems;
-			//		StyledByItem	 : 	SET [0:1] OF IfcStyledItem FOR Item;
-			//	ENTITY IfcGeometricRepresentationItem;
-			//	ENTITY IfcSolidModel;
-			//		DERIVE
-			//		Dim	 : 	IfcDimensionCount :=  3;
-			//	ENTITY IfcSweptDiskSolid;
-			//		Directrix	 : 	IfcCurve;
-			//		Radius	 : 	IfcPositiveLengthMeasure;
-			//		InnerRadius	 : 	OPTIONAL IfcPositiveLengthMeasure;
-			//		StartParam	 : 	OPTIONAL IfcParameterValue;
-			//		EndParam	 : 	OPTIONAL IfcParameterValue;
-			//END_ENTITY;	
+		//shared_ptr<IfcSweptDiskSolid> swept_disp_solid = dynamic_pointer_cast<IfcSweptDiskSolid>( solid_model );
+		//if( swept_disp_solid )
+		//{
+		//	//ENTITY IfcSweptDiskSolid;
+		//	//	ENTITY IfcRepresentationItem;
+		//	//	INVERSE
+		//	//		LayerAssignments	 : 	SET OF IfcPresentationLayerAssignment FOR AssignedItems;
+		//	//		StyledByItem	 : 	SET [0:1] OF IfcStyledItem FOR Item;
+		//	//	ENTITY IfcGeometricRepresentationItem;
+		//	//	ENTITY IfcSolidModel;
+		//	//		DERIVE
+		//	//		Dim	 : 	IfcDimensionCount :=  3;
+		//	//	ENTITY IfcSweptDiskSolid;
+		//	//		Directrix	 : 	IfcCurve;
+		//	//		Radius	 : 	IfcPositiveLengthMeasure;
+		//	//		InnerRadius	 : 	OPTIONAL IfcPositiveLengthMeasure;
+		//	//		StartParam	 : 	OPTIONAL IfcParameterValue;
+		//	//		EndParam	 : 	OPTIONAL IfcParameterValue;
+		//	//END_ENTITY;	
 
-			shared_ptr<IfcCurve>& directrix_curve = swept_disp_solid->m_Directrix;
-			double radius = 0.0;
-			if( swept_disp_solid->m_Radius )
-			{
-				radius = swept_disp_solid->m_Radius->m_value*length_in_meter;
-			}
+		//	shared_ptr<IfcCurve>& directrix_curve = swept_disp_solid->m_Directrix;
+		//	double radius = 0.0;
+		//	if( swept_disp_solid->m_Radius )
+		//	{
+		//		radius = swept_disp_solid->m_Radius->m_value*length_in_meter;
+		//	}
 
-			double radius_inner = -1.0;
-			if( swept_disp_solid->m_InnerRadius )
-			{
-				radius_inner = swept_disp_solid->m_InnerRadius->m_value*length_in_meter;
-			}
+		//	double radius_inner = -1.0;
+		//	if( swept_disp_solid->m_InnerRadius )
+		//	{
+		//		radius_inner = swept_disp_solid->m_InnerRadius->m_value*length_in_meter;
+		//	}
 
-			// TODO: handle start param, end param
+		//	// TODO: handle start param, end param
 
-			std::vector<vec3> segment_start_points;
-			std::vector<vec3> basis_curve_points;
-			m_curve_converter->convertIfcCurve( directrix_curve, basis_curve_points, segment_start_points );
+		//	std::vector<vec3> segment_start_points;
+		//	std::vector<vec3> basis_curve_points;
+		//	m_curve_converter->convertIfcCurve( directrix_curve, basis_curve_points, segment_start_points );
 
-			shared_ptr<ItemShapeData> item_data_solid( new ItemShapeData() );
-			if( !item_data_solid )
-			{
-				throw OutOfMemoryException( __FUNC__ );
-			}
+		//	shared_ptr<ItemShapeData> item_data_solid( new ItemShapeData() );
+		//	if( !item_data_solid )
+		//	{
+		//		throw OutOfMemoryException( __FUNC__ );
+		//	}
 
-			m_sweeper->sweepDisk( basis_curve_points, swept_disp_solid.get(), item_data_solid, nvc, radius, radius_inner );
-			item_data->addItemData( item_data_solid );
+		//	m_sweeper->sweepDisk( basis_curve_points, swept_disp_solid.get(), item_data_solid, nvc, radius, radius_inner );
+		//	item_data->addItemData( item_data_solid );
 
-			return;
-		}
+		//	return;
+		//}
 
 		messageCallback( "Unhandled IFC Representation", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, solid_model.get() );
 	}
